@@ -1,8 +1,10 @@
-# ZABBIX WITH TABLESPACES
+# ZABBIX WITH PARTITION TABLES
 
 ## History
 
-Some time ago I was working involved in some proyects conformed by several servers each one, that servers had to be monitored and after search and review some OpenSource proyects like Zabbix, Nagios, Cacty and so on I decided to use Zabbix to implement monitoring and alerting tasks, I liked Zabbix so much because it store collected data into a PostgreSQL database and that offered another advantage for me because I was interested in store that data for a long time period and use it to leverage capacity planing effors. 
+Some time ago I was working involved in some proyects conformed by several servers each one, that servers had to be monitored and after search and review some OpenSource proyects like [Zabbix](https://www.zabbix.com/), [Nagios](https://www.nagios.org/), [Cacti](https://www.cacti.net/) and so on I decided to use Zabbix to implement monitoring and alerting tasks, I liked Zabbix so much because it store collected data into a PostgreSQL database and that offered another advantage for me because I was interested in store that data for a long time period and use it to leverage capacity planing effors. Then I had to modify Zabbix database schema to adapt it for partition tables use and aditionally implement tablespaces.
+
+Implement partition tables and tablespaces bring some advantages to leverage database performance because it makes possible store data and indexes in differente file systems, indexes can be stored in a very fast but expensive file system while data can be stored in traditional file system and partition tables allow PostgreSQL engine to load few indexes to satisfy a query instead of load a unique large index improving query execution time.
 
 ## The repository
 
@@ -37,6 +39,8 @@ This script will create two aditional files, one file called __create_tablespace
 ## How to
 
 ### Preparing ZABBIX database
+
+0. Install all Perl dependencies.
 
 1. git clone https://github.com/jorgesanchez-e/zabbix-pg-tablespaces
 
@@ -96,7 +100,7 @@ At this point you can follow instructions showed in [Zabbix server installation 
 Once you have up and running  your Zabbix server with PostgreSQL partitions you need a way to create  every month tables and it's index automatically to address this issue you can configure  __zabbix32-history-tables.pl__ script into a cronjob task putting line showed above into PostgreSQL user account.
 
 ```shell
-0	0	25	*	*	/path/to/file/zabbix32-history-tables.pl	
+0 0 25 * * /path/to/zabbix32-history-tables.pl --index=/path/to/index --data=/path/to/data
 ```
 
 This cronjob task will be execute every 25th day of every month and the script __zabbix32-history-tables.pl__ will create all tables and index needed for zabbix to store monitoring data for next inmediatly month.
