@@ -1,5 +1,11 @@
 # ZABBIX WITH TABLESPACES
 
+## History
+
+Some time ago I was working involved in some proyects conformed by several servers each one, that servers had to be monitored and after search and review some OpenSource proyects like Zabbix, Nagios, Cacty and so on I decided to use Zabbix to implement monitoring and alerting tasks, I liked Zabbix so much because it store collected data into a PostgreSQL database and that offered another advantage for me because I was interested in store that data for a long time period and use it to leverage capacity planing effors. 
+
+## The repository
+
 This repository contains scripts to modify zabbix 3.2 PostgreSQL scheme file, __create.sql.gz__,  in order to implement PostgreSQL __tablespaces__ and __inherited tables__ aka __partition tables__, the main target is to store items colected by Zabbix agents into several history tables, one table peer month, but keeping original zabbix querys's unmodified, This script will modify every __create table__ and __create index__ statement into __create.sql.gz__ file adding tablespace clauses to allow store data into diferent locations, data and indexes objects, remember that you should locate index data into very fast disk if it is possible to leverage database performance.
 
 This script will create two aditional files, one file called __create_tablespaces.sql__ containing all statements to create tablespaces into zabbix database and other file called __create_functions.sql__ that contains statementes to define functions and triggers needed to re-direct inserts data clauses into history inherited tables.
@@ -87,7 +93,7 @@ At this point you can follow instructions showed in [Zabbix server installation 
 
 ### Creating tables programmatically
 
-Once you have up and running  your Zabbix server with PostgreSQL partitions you need a way to create  every month all tables and it's index automatically, to address that issue you can configure  __zabbix32-history-tables.pl__ script into a cronjob task putting line showed above into PostgreSQL user account.
+Once you have up and running  your Zabbix server with PostgreSQL partitions you need a way to create  every month tables and it's index automatically to address this issue you can configure  __zabbix32-history-tables.pl__ script into a cronjob task putting line showed above into PostgreSQL user account.
 
 ```shell
 0	0	25	*	*	/path/to/file/zabbix32-history-tables.pl	
