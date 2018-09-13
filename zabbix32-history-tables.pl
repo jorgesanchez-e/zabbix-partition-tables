@@ -42,8 +42,8 @@ sub generate_statements(){
   my $month      = $data->{"MONTH"};
   my $year       = $data->{"YEAR"};
   my $days       = Days_in_Month($year,$month);
-  my $tables     = ["history_log", "history_str", "history_text", "history_uint"];
-  my $indexes    = ["history_log_1","history_str_1", "history_text_1", "history_uint_1"];
+  my $tables     = ["history", "history_log", "history_str", "history_text", "history_uint"];
+  my $indexes    = ["history_1", "history_log_1","history_str_1", "history_text_1", "history_uint_1"];
   my $tablespaces = {
     "INDEX" => "zabbix_index_ts",
     "DATA"  => "zabbix_data_ts"
