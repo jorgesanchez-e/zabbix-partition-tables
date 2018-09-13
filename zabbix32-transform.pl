@@ -170,11 +170,21 @@ CREATE TABLE history_uint_MM_YY (
 ) INHERITS (history_uint) TABLESPACE _TABLESPACE_NAME_;
   };
 
+  my $indexes = qq {
+CREATE INDEX indx_history_MM_YY ON history_MM_YY (itemid,clock) TABLESPACE _TABLESPACE_NAME_;
+CREATE INDEX indx_history_log_MM_YY ON history_log_MM_YY (itemid,clock) TABLESPACE _TABLESPACE_NAME_;
+CREATE INDEX indx_history_str_MM_YY ON history_str_MM_YY (itemid,clock) TABLESPACE _TABLESPACE_NAME_;
+CREATE INDEX indx_history_text_MM_YY ON history_text_MM_YY (itemid,clock) TABLESPACE _TABLESPACE_NAME_;
+CREATE INDEX indx_history_uint_MM_YY ON history_uint_MM_YY (itemid,clock) TABLESPACE _TABLESPACE_NAME_;
+};
+
   $tables =~ s/_TABLESPACE_NAME_/$data->{"DATA_TS_NAME"}/g;
+  $indexes =~ s/_TABLESPACE_NAME_/$data->{"INDEX_TS_NAME"}/g;
 
   print "- Adding every else statements, dated tables, functions, triggers ... \n";
   print $fd "\n";
   print $fd replace_dates($tables);
+  print $fd replace_dates($indexes);
   print $fd "\n";
 
   print $fd "COMMIT;";
