@@ -2,7 +2,7 @@
 
 ## History
 
-Some time ago I was working involved in some proyects conformed by several servers each one, that servers had to be monitored and after search and review some OpenSource proyects like [Zabbix](https://www.zabbix.com/), [Nagios](https://www.nagios.org/), [Cacti](https://www.cacti.net/) and so on I decided to use Zabbix to implement monitoring and alerting tasks, I liked Zabbix so much because it store collected data into a PostgreSQL database and that offered another advantage for me because I was interested in store that data for a long time period and use it to leverage capacity planing effors. Then I had to modify Zabbix database schema to adapt it for partition tables use and aditionally implement tablespaces.
+Some time ago I was working and involved in some proyects conformed by several servers each one, that servers had to be monitored and after search and review some OpenSource proyects like [Zabbix](https://www.zabbix.com/), [Nagios](https://www.nagios.org/), [Cacti](https://www.cacti.net/) and so on I decided to use Zabbix to implement monitoring and alerting tasks, I liked Zabbix so much because it store collected data into a PostgreSQL database and that offered another advantage for me because I was interested in store that data for a long time period and use it to leverage capacity planing effors. Then I had to modify Zabbix database schema to adapt it for partition tables use and aditionally implement tablespaces.
 
 Implement partition tables and tablespaces bring some advantages to leverage database performance because it makes possible store data and indexes in differente file systems, indexes can be stored in a very fast but expensive file system while data can be stored in traditional file system and partition tables allow PostgreSQL engine to load few indexes to satisfy a query instead of load a unique large index improving query execution time.
 
@@ -42,7 +42,7 @@ This script will create two aditional files, one file called __create_tablespace
 
 0. Install all Perl dependencies.
 
-1. git clone https://github.com/jorgesanchez-e/zabbix-pg-tablespaces
+1. git clone https://github.com/jorgesanchez-e/zabbix-parttition-tables
 
 2. Move file [zabbix32-transform.pl](https://github.com/jorgesanchez-e/1billion-with-zabbix/blob/master/zabbix32-transform.pl) into same directory than __create.sql.gz__ file is.
 
@@ -88,7 +88,7 @@ This script will create two aditional files, one file called __create_tablespace
 8. Execute __create_functions.sql__ file as just as shown below:
 
    ```shell
-   cat ./create_functions.sql | sudo -u postgres psql
+   cat ./create_functions.sql | sudo -u zabbix psql
    ```
 
 At this point you can follow instructions showed in [Zabbix server installation with PostgreSQL](https://www.zabbix.com/documentation/3.2/manual/installation/install_from_packages/server_installation_with_postgresql) to complete installation and at the end don't forget disable Zabbix house keeper process.
