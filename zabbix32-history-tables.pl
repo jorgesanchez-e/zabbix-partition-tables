@@ -5,6 +5,20 @@ use Getopt::Long;
 use Date::Calc qw(Today Days_in_Month Date_to_Time Mktime);
 
 my $data = "";
+my $host = "";
+my $port = "";
+
+GetOptions ( "hosts=s" => \$host,
+	     "port=s"  => \$port
+	   );
+
+if ( !$host eq "" ){
+ $host = "--host $host"; 
+}
+
+if ( !$port eq "" ){
+  $port = "--port $port";
+}
 
 $data = get_initdata();
 generate_statements($data);
@@ -72,7 +86,7 @@ sub generate_statements(){
   }
 
   foreach my $stt ( @{$statements} ){
-    open CMD, "echo \'$stt\' | psql zabbix |";
+    open CMD, "echo \'$stt\' | psql zabbix $host $port |";
     #print $stt . "\n";
   }
 
