@@ -100,8 +100,16 @@ At this point you can follow instructions showed in [Zabbix server installation 
 Once you have up and running  your Zabbix server with PostgreSQL partitions you need a way to create  every month tables and it's index automatically to address this issue you can configure  __zabbix32-history-tables.pl__ script into a cronjob task putting line showed above into PostgreSQL user account.
 
 ```shell
-0	0	25	*	*	/path/to/zabbix32-history-tables.pl
+0	0	25	*	*	/path/to/zabbix32-history-tables.pl --host <IP> --port <port>
 ```
 
 This cronjob task will be execute every 25th day of every month and the script __zabbix32-history-tables.pl__ will create all tables and index needed for zabbix to store monitoring data for next inmediatly month.
+
+Host and port arguments are optional, if PostgreSQL engine listens on default port over localhost you can ommit those arguments completly. 
+
+
+
+### Installing with ansible
+
+If you don't want to do all steeps I did a quite simple ansible playbook for this project and put it in [this link](https://github.com/jorgesanchez-e/ansible-zabbix-partition-tables).
 
